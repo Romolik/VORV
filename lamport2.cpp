@@ -54,14 +54,12 @@ void queue_remove(std::set<block_t, decltype(cmp)> *queue, block* block) {
 
 void send_message_to_other_processes(int tag, long msg) {
 
-    MPI_Request requests[mpi_size];
-
     for (int i = 0; i < mpi_size; i++) {
         if (i == mpi_rank) {
             continue;
         }
 
-        MPI_Isend(&msg, 1, MPI_LONG, i, tag, MPI_COMM_WORLD, &requests[i]);
+        MPI_Send(&msg, 1, MPI_LONG, i, tag, MPI_COMM_WORLD);
     }
 }
 
